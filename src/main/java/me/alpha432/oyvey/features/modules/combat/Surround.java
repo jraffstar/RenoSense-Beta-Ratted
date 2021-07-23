@@ -11,6 +11,8 @@ import me.alpha432.oyvey.util.InventoryUtil;
 import me.alpha432.oyvey.util.Timer;
 import net.minecraft.block.BlockEnderChest;
 import net.minecraft.block.BlockObsidian;
+import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -40,6 +42,7 @@ public class Surround
     private int obbySlot = -1;
     private boolean offHand = false;
 
+
     public Surround() {
         super("Surround", "Surrounds you with Obsidian", Module.Category.COMBAT, true, false, false);
     }
@@ -57,6 +60,8 @@ public class Surround
         this.retries.clear();
         this.retryTimer.reset();
     }
+
+
 
     @Override
     public void onTick() {
@@ -89,14 +94,21 @@ public class Surround
         if (this.check()) {
             return;
         }
-        if (!EntityUtil.isSafe(Surround.mc.player, 0, true)) {
+        if (!EntityUtil.isSafe((Entity)Surround.mc.player, 0, true)) {
             this.isSafe = 0;
-            this.placeBlocks(Surround.mc.player.getPositionVector(), EntityUtil.getUnsafeBlockArray(Surround.mc.player, 0, true), true, false, false);
-        } else if (!EntityUtil.isSafe(Surround.mc.player, -1, false)) {
+            this.placeBlocks(Surround.mc.player.getPositionVector(), EntityUtil.getUnsafeBlockArray((Entity)Surround.mc.player, 0, true), true, false, false);
+        }
+        else if (!EntityUtil.isSafe((Entity)Surround.mc.player, -1, false)) {
             this.isSafe = 1;
-            this.placeBlocks(Surround.mc.player.getPositionVector(), EntityUtil.getUnsafeBlockArray(Surround.mc.player, -1, false), false, false, true);
-        } else {
-            this.isSafe = 2;
+            this.placeBlocks(Surround.mc.player.getPositionVector(), EntityUtil.getUnsafeBlockArray((Entity)Surround.mc.player, -1, false), false, false, true);
+        }
+        else {
+            this.isSafe = 3;
+            if (mc.world.getBlockState(EntityUtil.getRoundedBlockPos(mc.player)).getBlock().equals(Blocks.ENDER_CHEST) && mc.player.posY != EntityUtil.getRoundedBlockPos(mc.player).getY()) {
+                this.placeBlocks(Surround.mc.player.getPositionVector(), EntityUtil.getUnsafeBlockArray(Surround.mc.player, 1, false), false, false, true);
+            } else {
+                this.isSafe = 4;
+            }
         }
         this.processExtendingBlocks();
         if (this.didPlace) {
@@ -173,8 +185,12 @@ public class Surround
                 }
             }
         }
+
         return false;
     }
+
+
+
 
     private boolean check() {
         if (Surround.nullCheck()) {
