@@ -89,7 +89,6 @@ public class ModuleManager
         this.modules.add(new NoGlitchBlocks());
         this.modules.add(new StrengthDetect());
         this.modules.add(new Swing());
-        this.modules.add(new FOV());
     }
 
     public Module getModuleByName(String name) {
