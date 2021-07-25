@@ -15,11 +15,9 @@ public class NoSlow extends Module {
 
     public Setting<Boolean> noSlow = register(new Setting<Boolean>("NoSlow", true));
     public Setting<Boolean> explosions = register(new Setting<Boolean>("Explosions", false));
-    public Setting<Float> horizontal = this.register(new Setting<Float>("Horizontal", Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(100.0f), v -> this.explosions.getValue()));
-    public Setting<Float> vertical = this.register(new Setting<Float>("Vertical", Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(100.0f), v -> this.explosions.getValue()));
+    public Setting<Float> horizontal = this.register(new Setting<Float>("Horizontal", 0.0f, 0.0f, 100.0f, v -> this.explosions.getValue()));
+    public Setting<Float> vertical = this.register(new Setting<Float>("Vertical", 0.0f, 0.0f, 100.0f, v -> this.explosions.getValue()));
     private static NoSlow INSTANCE = new NoSlow();
-    private boolean sneaking = false;
-    private static KeyBinding[] keys = new KeyBinding[]{NoSlow.mc.gameSettings.keyBindForward, NoSlow.mc.gameSettings.keyBindBack, NoSlow.mc.gameSettings.keyBindLeft, NoSlow.mc.gameSettings.keyBindRight, NoSlow.mc.gameSettings.keyBindJump, NoSlow.mc.gameSettings.keyBindSprint};
 
     public NoSlow() {
         super("NoSlow", "Prevents you from getting slowed down.", Module.Category.MOVEMENT, true, false, false);
@@ -43,26 +41,26 @@ public class NoSlow extends Module {
             if (event.getPacket() instanceof SPacketEntityVelocity) {
                 SPacketEntityVelocity velocity = (SPacketEntityVelocity)event.getPacket();
                 if (velocity.getEntityID() == Util.mc.player.entityId) {
-                    if (((Float)this.horizontal.getValue()).floatValue() == 0.0F && ((Float)this.vertical.getValue()).floatValue() == 0.0F) {
+                    if (this.horizontal.getValue() == 0.0F && this.vertical.getValue() == 0.0F) {
                         event.setCanceled(true);
                         return;
                     }
-                    velocity.motionX = (int)(velocity.motionX * ((Float)this.horizontal.getValue()).floatValue());
-                    velocity.motionY = (int)(velocity.motionY * ((Float)this.vertical.getValue()).floatValue());
-                    velocity.motionZ = (int)(velocity.motionZ * ((Float)this.horizontal.getValue()).floatValue());
+                    velocity.motionX = (int)(velocity.motionX * this.horizontal.getValue());
+                    velocity.motionY = (int)(velocity.motionY * this.vertical.getValue());
+                    velocity.motionZ = (int)(velocity.motionZ * this.horizontal.getValue());
                 }
             }
             if (((Boolean)this.explosions.getValue()).booleanValue() && event.getPacket() instanceof SPacketExplosion) {
                 SPacketExplosion velocity = (SPacketExplosion)event.getPacket();
-                velocity.motionX *= ((Float)this.horizontal.getValue()).floatValue();
-                velocity.motionY *= ((Float)this.vertical.getValue()).floatValue();
-                velocity.motionZ *= ((Float)this.horizontal.getValue()).floatValue();
+                velocity.motionX *= this.horizontal.getValue();
+                velocity.motionY *= this.vertical.getValue();
+                velocity.motionZ *= this.horizontal.getValue();
             }
         }
     }
     @SubscribeEvent
     public void onInput(InputUpdateEvent event) {
-        if (noSlow.getValue().booleanValue() && NoSlow.mc.player.isHandActive() && !NoSlow.mc.player.isRiding()) {
+        if (noSlow.getValue() && NoSlow.mc.player.isHandActive() && !NoSlow.mc.player.isRiding()) {
             event.getMovementInput().moveStrafe *= 5.0f;
             event.getMovementInput().moveForward *= 5.0f;
         }

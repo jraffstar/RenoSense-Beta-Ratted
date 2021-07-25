@@ -6,7 +6,6 @@ import me.sjnez.renosense.features.setting.Setting;
 import me.sjnez.renosense.util.Util;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -46,13 +45,13 @@ public class Step extends Module {
     @SubscribeEvent
     public void onStep(StepEvent event) {
         if (Step.mc.player.onGround && !Step.mc.player.isInsideOfMaterial(Material.WATER) && !Step.mc.player.isInsideOfMaterial(Material.LAVA) && Step.mc.player.collidedVertically && Step.mc.player.fallDistance == 0.0f && !Step.mc.gameSettings.keyBindJump.pressed && !Step.mc.player.isOnLadder()) {
-            event.setHeight(this.stepHeight.getValue().intValue());
+            event.setHeight(this.stepHeight.getValue());
             double rheight = Step.mc.player.getEntityBoundingBox().minY - Step.mc.player.posY;
             if (rheight >= 0.625) {
-                if (!this.vanilla.getValue().booleanValue()) {
+                if (!this.vanilla.getValue()) {
                     this.ncpStep(rheight);
                 }
-                if (this.turnOff.getValue().booleanValue()) {
+                if (this.turnOff.getValue()) {
                     this.disable();
                 }
             }
@@ -86,25 +85,25 @@ public class Step extends Module {
                         second = 0.49;
                     }
                 }
-                Step.mc.player.connection.sendPacket((Packet)new CPacketPlayer.Position(posX, y + first, posZ, false));
+                Step.mc.player.connection.sendPacket(new CPacketPlayer.Position(posX, y + first, posZ, false));
                 if (!(y + second < y + height)) break block12;
-                Step.mc.player.connection.sendPacket((Packet)new CPacketPlayer.Position(posX, y + second, posZ, false));
+                Step.mc.player.connection.sendPacket(new CPacketPlayer.Position(posX, y + second, posZ, false));
                 break block12;
             }
             if (height < 1.6) {
                 double[] offset;
                 for (double off : offset = new double[]{0.42, 0.33, 0.24, 0.083, -0.078}) {
-                    Step.mc.player.connection.sendPacket((Packet)new CPacketPlayer.Position(posX, y += off, posZ, false));
+                    Step.mc.player.connection.sendPacket(new CPacketPlayer.Position(posX, y += off, posZ, false));
                 }
             } else if (height < 2.1) {
                 double[] heights;
                 for (double off : heights = new double[]{0.425, 0.821, 0.699, 0.599, 1.022, 1.372, 1.652, 1.869}) {
-                    Step.mc.player.connection.sendPacket((Packet)new CPacketPlayer.Position(posX, y + off, posZ, false));
+                    Step.mc.player.connection.sendPacket(new CPacketPlayer.Position(posX, y + off, posZ, false));
                 }
             } else {
                 double[] heights;
                 for (double off : heights = new double[]{0.425, 0.821, 0.699, 0.599, 1.022, 1.372, 1.652, 1.869, 2.019, 1.907}) {
-                    Step.mc.player.connection.sendPacket((Packet)new CPacketPlayer.Position(posX, y + off, posZ, false));
+                    Step.mc.player.connection.sendPacket(new CPacketPlayer.Position(posX, y + off, posZ, false));
                 }
             }
         }
