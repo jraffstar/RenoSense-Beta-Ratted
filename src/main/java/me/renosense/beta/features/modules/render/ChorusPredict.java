@@ -1,4 +1,4 @@
-package me.renosense.beta.features.modules.combat;
+package me.renosense.beta.features.modules.render;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 import me.renosense.beta.event.events.PacketEvent;
@@ -32,7 +32,7 @@ public class ChorusPredict extends Module {
 
 
     public ChorusPredict() {
-        super("ChorusPredict", "Predicts Chorus", Category.COMBAT, true, false, false);
+        super("ChorusPredict", "Predicts Chorus", Category.RENDER, true, false, false);
     }
 
     @SubscribeEvent

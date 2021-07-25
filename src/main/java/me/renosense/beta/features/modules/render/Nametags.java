@@ -59,13 +59,13 @@ public class Nametags extends Module {
 
     @Override
     public void onRender3D(Render3DEvent event) {
-        if (!Nametags.fullNullCheck()) {
-            for (EntityPlayer player : Nametags.mc.world.playerEntities) {
-                if (player == null || player.equals(Nametags.mc.player) || !player.isEntityAlive() || player.isInvisible() && !this.invisibles.getValue().booleanValue() || this.onlyFov.getValue().booleanValue() && !RotationUtil.isInFov(player))
+        if (!fullNullCheck()) {
+            for (EntityPlayer player : mc.world.playerEntities) {
+                if (player == null || player.equals(mc.player) || !player.isEntityAlive() || player.isInvisible() && !this.invisibles.getValue().booleanValue() || this.onlyFov.getValue().booleanValue() && !RotationUtil.isInFov(player))
                     continue;
-                double x = this.interpolate(player.lastTickPosX, player.posX, event.getPartialTicks()) - Nametags.mc.getRenderManager().renderPosX;
-                double y = this.interpolate(player.lastTickPosY, player.posY, event.getPartialTicks()) - Nametags.mc.getRenderManager().renderPosY;
-                double z = this.interpolate(player.lastTickPosZ, player.posZ, event.getPartialTicks()) - Nametags.mc.getRenderManager().renderPosZ;
+                double x = this.interpolate(player.lastTickPosX, player.posX, event.getPartialTicks()) - mc.getRenderManager().renderPosX;
+                double y = this.interpolate(player.lastTickPosY, player.posY, event.getPartialTicks()) - mc.getRenderManager().renderPosY;
+                double z = this.interpolate(player.lastTickPosZ, player.posZ, event.getPartialTicks()) - mc.getRenderManager().renderPosZ;
                 this.renderNameTag(player, x, y, z, event.getPartialTicks());
             }
         }
@@ -83,7 +83,7 @@ public class Nametags extends Module {
         camera.posY = this.interpolate(camera.prevPosY, camera.posY, delta);
         camera.posZ = this.interpolate(camera.prevPosZ, camera.posZ, delta);
         String displayTag = this.getDisplayTag(player);
-        double distance = camera.getDistance(x + Nametags.mc.getRenderManager().viewerPosX, y + Nametags.mc.getRenderManager().viewerPosY, z + Nametags.mc.getRenderManager().viewerPosZ);
+        double distance = camera.getDistance(x + mc.getRenderManager().viewerPosX, y + mc.getRenderManager().viewerPosY, z + mc.getRenderManager().viewerPosZ);
         int width = this.renderer.getStringWidth(displayTag) / 2;
         double scale = (0.0018 + (double) this.scaling.getValue().floatValue() * (distance * (double) this.factor.getValue().floatValue())) / 1000.0;
         if (distance <= 8.0 && this.smartScale.getValue().booleanValue()) {
@@ -98,8 +98,8 @@ public class Nametags extends Module {
         GlStateManager.doPolygonOffset(1.0f, -1500000.0f);
         GlStateManager.disableLighting();
         GlStateManager.translate((float) x, (float) tempY + 1.4f, (float) z);
-        GlStateManager.rotate(-Nametags.mc.getRenderManager().playerViewY, 0.0f, 1.0f, 0.0f);
-        GlStateManager.rotate(Nametags.mc.getRenderManager().playerViewX, Nametags.mc.gameSettings.thirdPersonView == 2 ? -1.0f : 1.0f, 0.0f, 0.0f);
+        GlStateManager.rotate(-mc.getRenderManager().playerViewY, 0.0f, 1.0f, 0.0f);
+        GlStateManager.rotate(mc.getRenderManager().playerViewX, mc.gameSettings.thirdPersonView == 2 ? -1.0f : 1.0f, 0.0f, 0.0f);
         GlStateManager.scale(-scale, -scale, scale);
         GlStateManager.disableDepth();
         GlStateManager.enableBlend();
@@ -163,13 +163,13 @@ public class Nametags extends Module {
         GlStateManager.depthMask(true);
         GlStateManager.clear(256);
         RenderHelper.enableStandardItemLighting();
-        Nametags.mc.getRenderItem().zLevel = -150.0f;
+        mc.getRenderItem().zLevel = -150.0f;
         GlStateManager.disableAlpha();
         GlStateManager.enableDepth();
         GlStateManager.disableCull();
         Util.mc.getRenderItem().renderItemAndEffectIntoGUI(stack, x, y);
-        Util.mc.getRenderItem().renderItemOverlays(Nametags.mc.fontRenderer, stack, x, y);
-        Nametags.mc.getRenderItem().zLevel = 0.0f;
+        Util.mc.getRenderItem().renderItemOverlays(mc.fontRenderer, stack, x, y);
+        mc.getRenderItem().zLevel = 0.0f;
         RenderHelper.disableStandardItemLighting();
         GlStateManager.enableCull();
         GlStateManager.enableAlpha();

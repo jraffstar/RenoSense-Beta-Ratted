@@ -3,7 +3,6 @@ package me.renosense.beta.features.modules.render;
 import me.renosense.beta.event.events.PacketEvent;
 import me.renosense.beta.features.modules.Module;
 import me.renosense.beta.features.setting.Setting;
-import me.renosense.beta.util.Util;
 import net.minecraft.init.MobEffects;
 import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.potion.PotionEffect;
@@ -39,22 +38,22 @@ public class Swing extends Module {
     @Override
     public void onUpdate() {
         if (this.Fatigue.getValue()) {
-            Util.mc.player.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 69420));
+            mc.player.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 69420));
         }
         if (this.Fatigue.getValue().equals(false)) {
-            Util.mc.player.removePotionEffect(MobEffects.MINING_FATIGUE);
+            mc.player.removePotionEffect(MobEffects.MINING_FATIGUE);
         }
         if (SwingMode.getValue().equals(mode.Offhand)) {
-            Util.mc.player.swingingHand = EnumHand.OFF_HAND;
+            mc.player.swingingHand = EnumHand.OFF_HAND;
         }
         if (SwingMode.getValue().equals(mode.Mainhand)) {
-            Util.mc.player.swingingHand = EnumHand.MAIN_HAND;
+            mc.player.swingingHand = EnumHand.MAIN_HAND;
         }
 
         if (NoMotion.getValue()) {
-            if (Util.mc.entityRenderer.itemRenderer.prevEquippedProgressMainHand >= 0.9) {
-                Util.mc.entityRenderer.itemRenderer.equippedProgressMainHand = 1.0f;
-                Util.mc.entityRenderer.itemRenderer.itemStackMainHand = Util.mc.player.getHeldItemMainhand();
+            if (mc.entityRenderer.itemRenderer.prevEquippedProgressMainHand >= 0.9) {
+                mc.entityRenderer.itemRenderer.equippedProgressMainHand = 1.0f;
+                mc.entityRenderer.itemRenderer.itemStackMainHand = mc.player.getHeldItemMainhand();
             }
         }
     }

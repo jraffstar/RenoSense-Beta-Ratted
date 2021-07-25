@@ -33,7 +33,7 @@ public class Selftrap extends Module {
     private boolean hasOffhand = false;
 
     public Selftrap() {
-        super("Selftrap", "Lure your enemies in!", Module.Category.COMBAT, true, false, true);
+        super("SelfTrap", "Lure your enemies in!", Module.Category.COMBAT, true, false, true);
     }
 
     @Override
@@ -46,14 +46,14 @@ public class Selftrap extends Module {
 
     @Override
     public void onTick() {
-        if (this.isOn() && (this.blocksPerTick.getValue() != 1 || !this.rotate.getValue().booleanValue())) {
+        if (this.isOn() && (this.blocksPerTick.getValue() != 1 || !this.rotate.getValue())) {
             this.doHoleFill();
         }
     }
 
     @SubscribeEvent
     public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
-        if (this.isOn() && event.getStage() == 0 && this.blocksPerTick.getValue() == 1 && this.rotate.getValue().booleanValue()) {
+        if (this.isOn() && event.getStage() == 0 && this.blocksPerTick.getValue() == 1 && this.rotate.getValue()) {
             this.doHoleFill();
         }
     }

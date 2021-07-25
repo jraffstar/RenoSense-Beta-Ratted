@@ -11,7 +11,7 @@ public class NoRender extends Module {
     private static NoRender INSTANCE = new NoRender();
 
     static {
-        NoRender.INSTANCE = new NoRender();
+        INSTANCE = new NoRender();
     }
 
     public Setting<Boolean> blocks = register(new Setting("Blocks", Boolean.valueOf(false), "Blocks"));
@@ -28,10 +28,10 @@ public class NoRender extends Module {
     }
 
     public static NoRender getInstance() {
-        if (NoRender.INSTANCE == null) {
-            NoRender.INSTANCE = new NoRender();
+        if (INSTANCE == null) {
+            INSTANCE = new NoRender();
         }
-        return NoRender.INSTANCE;
+        return INSTANCE;
     }
 
     private void setInstance() {

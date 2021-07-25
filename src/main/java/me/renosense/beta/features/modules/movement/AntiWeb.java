@@ -26,28 +26,26 @@ public class AntiWeb extends Module {
 
     @Override
     public void onUpdate() {
-
         if (HoleOnly.getValue()) {
-            if (Util.mc.player.isInWeb && EntityUtil.isInHole(Util.mc.player)) {
-                AntiWeb.mc.timer.tickLength = 50.0f / ((this.timerSpeed.getValue() == 0.0f) ? 0.1f : this.timerSpeed.getValue());
+            if (mc.player.isInWeb && EntityUtil.isInHole(Util.mc.player)) {
+                mc.timer.tickLength = 50.0f / ((this.timerSpeed.getValue() == 0.0f) ? 0.1f : this.timerSpeed.getValue());
             } else {
-                AntiWeb.mc.timer.tickLength = 50.0f;
+                mc.timer.tickLength = 50.0f;
             }
-            if (Util.mc.player.onGround && EntityUtil.isInHole(Util.mc.player)) {
-                AntiWeb.mc.timer.tickLength = 50.0f;
+            if (mc.player.onGround && EntityUtil.isInHole(Util.mc.player)) {
+                mc.timer.tickLength = 50.0f;
             }
         }
         if (!HoleOnly.getValue()) {
-            if (Util.mc.player.isInWeb) {
-                AntiWeb.mc.timer.tickLength = 50.0f / ((this.timerSpeed.getValue() == 0.0f) ? 0.1f : this.timerSpeed.getValue());
+            if (mc.player.isInWeb) {
+                mc.timer.tickLength = 50.0f / ((this.timerSpeed.getValue() == 0.0f) ? 0.1f : this.timerSpeed.getValue());
 
             } else {
-                AntiWeb.mc.timer.tickLength = 50.0f;
+                mc.timer.tickLength = 50.0f;
 
             }
-            if (Util.mc.player.onGround) {
-                AntiWeb.mc.timer.tickLength = 50.0f;
-
+            if (mc.player.onGround) {
+                mc.timer.tickLength = 50.0f;
             }
         }
     }

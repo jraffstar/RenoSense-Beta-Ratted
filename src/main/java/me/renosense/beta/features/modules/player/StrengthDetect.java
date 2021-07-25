@@ -25,12 +25,12 @@ public class StrengthDetect extends Module {
         for (EntityPlayer player : mc.world.playerEntities) {
             if (player.equals(mc.player)) continue;
             if (player.isPotionActive(MobEffects.STRENGTH) && !this.str.contains(player)) {
-                Command.sendMessage(player.getDisplayNameString() + ChatFormatting.WHITE + " has strength");
+                Command.sendMessage(player.getDisplayNameString() + " has strength");
                 this.str.add(player);
             }
 
             if (!this.str.contains(player) || player.isPotionActive(MobEffects.STRENGTH)) continue;
-            Command.sendMessage(player.getDisplayNameString() + ChatFormatting.WHITE + " doesnt have strength");
+            Command.sendMessage(player.getDisplayNameString() + " doesnt have strength");
             this.str.remove(player);
         }
     }

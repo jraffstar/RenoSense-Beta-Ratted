@@ -26,8 +26,9 @@ public class SkyColor extends Module {
     }
 
     public static SkyColor getInstance() {
-        if (INSTANCE == null)
+        if (INSTANCE == null) {
             INSTANCE = new SkyColor();
+        }
         return INSTANCE;
     }
 

@@ -13,11 +13,11 @@ public class ReverseStep extends Module {
 
     @Override
     public void onUpdate() {
-        if (ReverseStep.mc.player.isInLava() || ReverseStep.mc.player.isInWater()) {
+        if (mc.player.isInLava() || mc.player.isInWater()) {
             return;
         }
         if (mc.player.onGround) {
-            ReverseStep.mc.player.motionY -= this.speed.getValue() / 10;
+            mc.player.motionY -= this.speed.getValue() / 10;
         }
     }
 }

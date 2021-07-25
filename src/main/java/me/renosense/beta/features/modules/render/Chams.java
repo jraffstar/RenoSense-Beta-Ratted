@@ -50,11 +50,11 @@ public class Chams extends Module {
         for (Entity crystal : Chams.mc.world.loadedEntityList) {
             if (!(crystal instanceof EntityEnderCrystal)) continue;
             if (!this.scaleMap.containsKey(crystal)) {
-                this.scaleMap.put((EntityEnderCrystal) crystal, Float.valueOf(3.125E-4f));
+                this.scaleMap.put((EntityEnderCrystal) crystal, 3.125E-4f);
             } else {
-                this.scaleMap.put((EntityEnderCrystal) crystal, Float.valueOf(this.scaleMap.get(crystal).floatValue() + 3.125E-4f));
+                this.scaleMap.put((EntityEnderCrystal) crystal, this.scaleMap.get(crystal) + 3.125E-4f);
             }
-            if (!(this.scaleMap.get(crystal).floatValue() >= 0.0625f * this.scale.getValue().floatValue()))
+            if (!(this.scaleMap.get(crystal) >= 0.0625f * this.scale.getValue()))
                 continue;
             this.scaleMap.remove(crystal);
         }
@@ -73,10 +73,10 @@ public class Chams extends Module {
     }
 
     public void onRenderModel(RenderEntityModelEvent event) {
-        if (event.getStage() != 0 || !(event.entity instanceof EntityEnderCrystal) || !this.wireframe.getValue().booleanValue()) {
+        if (event.getStage() != 0 || !(event.entity instanceof EntityEnderCrystal) || !wireframe.getValue()) {
             return;
         }
-        Color color = this.rainbow.getValue() != false ? ColorUtil.rainbow((int) ClickGui.getInstance().rainbowHue.getValue()) : EntityUtil.getColor(event.entity, this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue(), false);
+        Color color = rainbow.getValue() ? ColorUtil.rainbow((int) ClickGui.getInstance().rainbowHue.getValue()) : EntityUtil.getColor(event.entity, this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue(), false);
         boolean fancyGraphics = Chams.mc.gameSettings.fancyGraphics;
         Chams.mc.gameSettings.fancyGraphics = false;
         float gamma = Chams.mc.gameSettings.gammaSetting;

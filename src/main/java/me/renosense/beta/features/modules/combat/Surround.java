@@ -47,12 +47,12 @@ public class Surround extends Module {
 
     @Override
     public void onEnable() {
-        if (Surround.fullNullCheck()) {
+        if (fullNullCheck()) {
             this.disable();
         }
-        this.lastHotbarSlot = Surround.mc.player.inventory.currentItem;
-        this.startPos = EntityUtil.getRoundedBlockPos(Surround.mc.player);
-        if (this.center.getValue().booleanValue()) {
+        this.lastHotbarSlot = mc.player.inventory.currentItem;
+        this.startPos = EntityUtil.getRoundedBlockPos(mc.player);
+        if (center.getValue()) {
             RenoSense.positionManager.setPositionPacket((double) this.startPos.getX() + 0.5, this.startPos.getY(), (double) this.startPos.getZ() + 0.5, true, true, true);
         }
         this.retries.clear();
@@ -67,7 +67,7 @@ public class Surround extends Module {
 
     @Override
     public void onDisable() {
-        if (Surround.nullCheck()) {
+        if (nullCheck()) {
             return;
         }
         isPlacing = false;
@@ -91,16 +91,16 @@ public class Surround extends Module {
         if (this.check()) {
             return;
         }
-        if (!EntityUtil.isSafe((Entity) Surround.mc.player, 0, true)) {
+        if (!EntityUtil.isSafe(mc.player, 0, true)) {
             this.isSafe = 0;
-            this.placeBlocks(Surround.mc.player.getPositionVector(), EntityUtil.getUnsafeBlockArray((Entity) Surround.mc.player, 0, true), true, false, false);
-        } else if (!EntityUtil.isSafe((Entity) Surround.mc.player, -1, false)) {
+            this.placeBlocks(mc.player.getPositionVector(), EntityUtil.getUnsafeBlockArray(mc.player, 0, true), true, false, false);
+        } else if (!EntityUtil.isSafe(mc.player, -1, false)) {
             this.isSafe = 1;
-            this.placeBlocks(Surround.mc.player.getPositionVector(), EntityUtil.getUnsafeBlockArray((Entity) Surround.mc.player, -1, false), false, false, true);
+            this.placeBlocks(mc.player.getPositionVector(), EntityUtil.getUnsafeBlockArray(mc.player, -1, false), false, false, true);
         } else {
             this.isSafe = 3;
             if (Util.mc.world.getBlockState(EntityUtil.getRoundedBlockPos(Util.mc.player)).getBlock().equals(Blocks.ENDER_CHEST) && Util.mc.player.posY != EntityUtil.getRoundedBlockPos(Util.mc.player).getY()) {
-                this.placeBlocks(Surround.mc.player.getPositionVector(), EntityUtil.getUnsafeBlockArray(Surround.mc.player, 1, false), false, false, true);
+                this.placeBlocks(mc.player.getPositionVector(), EntityUtil.getUnsafeBlockArray(mc.player, 1, false), false, false, true);
             } else {
                 this.isSafe = 4;
             }
@@ -136,13 +136,13 @@ public class Surround extends Module {
     private Vec3d areClose(Vec3d[] vec3ds) {
         int matches = 0;
         for (Vec3d vec3d : vec3ds) {
-            for (Vec3d pos : EntityUtil.getUnsafeBlockArray(Surround.mc.player, 0, true)) {
+            for (Vec3d pos : EntityUtil.getUnsafeBlockArray(mc.player, 0, true)) {
                 if (!vec3d.equals(pos)) continue;
                 ++matches;
             }
         }
         if (matches == 2) {
-            return Surround.mc.player.getPositionVector().add(vec3ds[0].add(vec3ds[1]));
+            return mc.player.getPositionVector().add(vec3ds[0].add(vec3ds[1]));
         }
         return null;
     }
@@ -163,7 +163,7 @@ public class Surround extends Module {
                     }
                     if (RenoSense.speedManager.getSpeedKpH() != 0.0 || isExtending || this.extenders >= 1)
                         continue block5;
-                    this.placeBlocks(Surround.mc.player.getPositionVector().add(vec3d), EntityUtil.getUnsafeBlockArrayFromVec3d(Surround.mc.player.getPositionVector().add(vec3d), 0, true), hasHelpingBlocks, false, true);
+                    this.placeBlocks(mc.player.getPositionVector().add(vec3d), EntityUtil.getUnsafeBlockArrayFromVec3d(mc.player.getPositionVector().add(vec3d), 0, true), hasHelpingBlocks, false, true);
                     this.extendingBlocks.add(vec3d);
                     ++this.extenders;
                     continue block5;
@@ -187,7 +187,7 @@ public class Surround extends Module {
 
 
     private boolean check() {
-        if (Surround.nullCheck()) {
+        if (nullCheck()) {
             return true;
         }
         int obbySlot = InventoryUtil.findHotbarBlock(BlockObsidian.class);
@@ -195,7 +195,7 @@ public class Surround extends Module {
         if (obbySlot == -1 && eChestSot == -1) {
             this.toggle();
         }
-        this.offHand = InventoryUtil.isBlock(Surround.mc.player.getHeldItemOffhand().getItem(), BlockObsidian.class);
+        this.offHand = InventoryUtil.isBlock(mc.player.getHeldItemOffhand().getItem(), BlockObsidian.class);
         isPlacing = false;
         this.didPlace = false;
         this.extenders = 1;
@@ -215,10 +215,10 @@ public class Surround extends Module {
             return true;
         }
         this.isSneaking = EntityUtil.stopSneaking(this.isSneaking);
-        if (Surround.mc.player.inventory.currentItem != this.lastHotbarSlot && Surround.mc.player.inventory.currentItem != this.obbySlot && Surround.mc.player.inventory.currentItem != echestSlot) {
-            this.lastHotbarSlot = Surround.mc.player.inventory.currentItem;
+        if (mc.player.inventory.currentItem != this.lastHotbarSlot && mc.player.inventory.currentItem != this.obbySlot && mc.player.inventory.currentItem != echestSlot) {
+            this.lastHotbarSlot = mc.player.inventory.currentItem;
         }
-        if (!this.startPos.equals(EntityUtil.getRoundedBlockPos(Surround.mc.player))) {
+        if (!this.startPos.equals(EntityUtil.getRoundedBlockPos(mc.player))) {
             this.disable();
             return true;
         }
@@ -227,18 +227,18 @@ public class Surround extends Module {
 
     private void placeBlock(BlockPos pos) {
         if (this.placements < this.blocksPerTick.getValue()) {
-            int originalSlot = Surround.mc.player.inventory.currentItem;
+            int originalSlot = mc.player.inventory.currentItem;
             int obbySlot = InventoryUtil.findHotbarBlock(BlockObsidian.class);
             int eChestSot = InventoryUtil.findHotbarBlock(BlockEnderChest.class);
             if (obbySlot == -1 && eChestSot == -1) {
                 this.toggle();
             }
             isPlacing = true;
-            Surround.mc.player.inventory.currentItem = obbySlot == -1 ? eChestSot : obbySlot;
-            Surround.mc.playerController.updateController();
+            mc.player.inventory.currentItem = obbySlot == -1 ? eChestSot : obbySlot;
+            mc.playerController.updateController();
             this.isSneaking = BlockUtil.placeBlock(pos, this.offHand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, this.rotate.getValue(), this.noGhost.getValue(), this.isSneaking);
-            Surround.mc.player.inventory.currentItem = originalSlot;
-            Surround.mc.playerController.updateController();
+            mc.player.inventory.currentItem = originalSlot;
+            mc.playerController.updateController();
             this.didPlace = true;
             ++this.placements;
         }

@@ -38,7 +38,7 @@ public class NoSlow extends Module {
     public void onPacketReceived(PacketEvent.Receive event) {
         if (event.getStage() == 0 && Util.mc.player != null) {
             if (event.getPacket() instanceof SPacketEntityVelocity) {
-                SPacketEntityVelocity velocity = (SPacketEntityVelocity) event.getPacket();
+                SPacketEntityVelocity velocity = event.getPacket();
                 if (velocity.getEntityID() == Util.mc.player.entityId) {
                     if (this.horizontal.getValue() == 0.0F && this.vertical.getValue() == 0.0F) {
                         event.setCanceled(true);
@@ -49,8 +49,8 @@ public class NoSlow extends Module {
                     velocity.motionZ = (int) (velocity.motionZ * this.horizontal.getValue());
                 }
             }
-            if (((Boolean) this.explosions.getValue()).booleanValue() && event.getPacket() instanceof SPacketExplosion) {
-                SPacketExplosion velocity = (SPacketExplosion) event.getPacket();
+            if (this.explosions.getValue() && event.getPacket() instanceof SPacketExplosion) {
+                SPacketExplosion velocity = event.getPacket();
                 velocity.motionX *= this.horizontal.getValue();
                 velocity.motionY *= this.vertical.getValue();
                 velocity.motionZ *= this.horizontal.getValue();
@@ -60,7 +60,7 @@ public class NoSlow extends Module {
 
     @SubscribeEvent
     public void onInput(InputUpdateEvent event) {
-        if (noSlow.getValue() && NoSlow.mc.player.isHandActive() && !NoSlow.mc.player.isRiding()) {
+        if (noSlow.getValue() && mc.player.isHandActive() && !mc.player.isRiding()) {
             event.getMovementInput().moveStrafe *= 5.0f;
             event.getMovementInput().moveForward *= 5.0f;
         }

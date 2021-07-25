@@ -22,7 +22,7 @@ public class ChatModifier extends Module {
     private static ChatModifier INSTANCE = new ChatModifier();
 
     public ChatModifier() {
-        super("Chat", "Modifies your chat", Module.Category.MISC, true, false, false);
+        super("ChatModifier", "Modifies your chat", Module.Category.MISC, true, false, false);
         this.setInstance();
     }
 
@@ -91,7 +91,7 @@ public class ChatModifier extends Module {
         return player.getPosition().equals((Object) new Vec3i(0, 240, 0));
     }
 
-    public static enum Suffix {
+    public enum Suffix {
         NONE,
         RENOSENSE,
         DOTGOD,
