@@ -1,7 +1,7 @@
 {
   "required": true,
   "compatibilityLevel": "JAVA_8",
-  "package": "me.sjnez.renosense.mixin.mixins",
+  "package": "me.renosense.beta.mixin.mixins",
   "refmap": "mixins.oyvey.refmap.json",
   "mixins": [
     "MixinEntityRenderer",
