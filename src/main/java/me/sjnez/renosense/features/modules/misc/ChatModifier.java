@@ -61,7 +61,15 @@ public class ChatModifier extends Module {
             }
             switch (this.suffix.getValue()) {
                 case RENOSENSE: {
-                    s = s + " ||| RENOSENSE";
+                    s = s + " ||| \u13D2\u13AC\u13C1\u13BE\u13D5\u13AC\u13C1\u13D5\u13AC";
+                    break;
+                }
+                case DOTGOD: {
+                    s = s + " \u1D05\u1D0F\u1D1B\u0262\u1D0F\u1D05.\u1D04\u1D04";
+                    break;
+                }
+                case SN0W:{
+                    s = s + " \u2744";
                     break;
                 }
             }
@@ -90,7 +98,9 @@ public class ChatModifier extends Module {
 
     public static enum Suffix {
         NONE,
-        RENOSENSE
+        RENOSENSE,
+        DOTGOD,
+        SN0W
 
     }
 }

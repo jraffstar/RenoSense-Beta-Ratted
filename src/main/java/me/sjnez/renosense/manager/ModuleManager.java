@@ -35,6 +35,7 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
+        this.modules.add(new AutoGG());
         this.modules.add(new Wireframe());
         this.modules.add(new Icon());
         this.modules.add(new FakePlayer());
