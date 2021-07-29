@@ -1,4 +1,4 @@
-package me.renosense.beta.features.modules.combat;
+package me.renosense.beta.features.modules.misc;
 
 import me.renosense.beta.features.modules.Module;
 import me.renosense.beta.features.setting.Setting;
@@ -9,10 +9,10 @@ import net.minecraft.util.text.TextComponentString;
 
 public class FakeKick extends Module {
 
-    private final Setting<Boolean> healthDisplay = this.register(new Setting<Boolean>("HealthDisplay", false));
+    private final Setting<Boolean> healthDisplay = this.register(new Setting<Boolean>("DisplayHealth", false));
 
     public FakeKick() {
-        super("FakeKick", "Log with the press of a button", Category.COMBAT, true, false, false);
+        super("FakeKick", "Log with the press of a button", Category.MISC, true, false, false);
     }
 
     public void onEnable() {

@@ -1,6 +1,5 @@
 package me.renosense.beta.features.modules.player;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
 import me.renosense.beta.features.command.Command;
 import me.renosense.beta.features.modules.Module;
 import net.minecraft.client.Minecraft;

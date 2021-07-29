@@ -32,7 +32,6 @@ public class Surround extends Module {
     private int isSafe;
     private BlockPos startPos;
     private boolean didPlace = false;
-    private boolean switchedItem;
     private int lastHotbarSlot;
     private boolean isSneaking;
     private int placements = 0;

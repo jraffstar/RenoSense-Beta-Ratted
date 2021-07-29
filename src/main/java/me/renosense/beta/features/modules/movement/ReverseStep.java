@@ -17,7 +17,7 @@ public class ReverseStep extends Module {
             return;
         }
         if (mc.player.onGround) {
-            mc.player.motionY -= this.speed.getValue() / 10;
+            mc.player.motionY -= speed.getValue();
         }
     }
 }

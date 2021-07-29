@@ -3,6 +3,7 @@ package me.renosense.beta.features.modules.player;
 import com.mojang.authlib.GameProfile;
 import me.renosense.beta.features.command.Command;
 import me.renosense.beta.features.modules.Module;
+import me.renosense.beta.features.setting.Setting;
 import me.renosense.beta.util.Util;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 
@@ -10,26 +11,27 @@ import java.util.UUID;
 
 public class FakePlayer extends Module {
 
-    private final String name = "Scott";
     private EntityOtherPlayerMP _fakePlayer;
 
     public FakePlayer() {
         super("FakePlayer", "Spawns a FakePlayer for testing", Module.Category.PLAYER, false, false, false);
     }
 
+    public Setting<String> playername = register(new Setting<String>("PlayerName", "Scott"));
+
     @Override
     public void onEnable() {
         if (FakePlayer.fullNullCheck()) {
-            this.disable();
+            disable();
             return;
         }
-        this._fakePlayer = null;
+        _fakePlayer = null;
         if (FakePlayer.mc.player != null) {
-            this._fakePlayer = new EntityOtherPlayerMP(FakePlayer.mc.world, new GameProfile(UUID.randomUUID(), this.name));
-            Command.sendMessage(String.format("%s has been spawned.", this.name));
-            this._fakePlayer.copyLocationAndAnglesFrom(FakePlayer.mc.player);
-            this._fakePlayer.rotationYawHead = FakePlayer.mc.player.rotationYawHead;
-            FakePlayer.mc.world.addEntityToWorld(-100, this._fakePlayer);
+            _fakePlayer = new EntityOtherPlayerMP(FakePlayer.mc.world, new GameProfile(UUID.randomUUID(), playername.getValue()));
+            Command.sendMessage(String.format("%s has been spawned.", playername.getValue()));
+            _fakePlayer.copyLocationAndAnglesFrom(FakePlayer.mc.player);
+            _fakePlayer.rotationYawHead = FakePlayer.mc.player.rotationYawHead;
+            FakePlayer.mc.world.addEntityToWorld(-100, _fakePlayer);
         }
     }
 

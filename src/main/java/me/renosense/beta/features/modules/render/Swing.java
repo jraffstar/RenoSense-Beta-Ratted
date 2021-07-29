@@ -3,9 +3,7 @@ package me.renosense.beta.features.modules.render;
 import me.renosense.beta.event.events.PacketEvent;
 import me.renosense.beta.features.modules.Module;
 import me.renosense.beta.features.setting.Setting;
-import net.minecraft.init.MobEffects;
 import net.minecraft.network.play.client.CPacketAnimation;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -17,7 +15,6 @@ public class Swing extends Module {
 
     public Setting<mode> SwingMode = register(new Setting("Mode", mode.Offhand));
     public Setting<Boolean> NoMotion = register(new Setting("NoMotion", true));
-    public Setting<Boolean> Fatigue = register(new Setting("Fatigue", false));
 
     public enum mode {
         Mainhand,
@@ -37,12 +34,7 @@ public class Swing extends Module {
 
     @Override
     public void onUpdate() {
-        if (this.Fatigue.getValue()) {
-            mc.player.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 69420));
-        }
-        if (this.Fatigue.getValue().equals(false)) {
-            mc.player.removePotionEffect(MobEffects.MINING_FATIGUE);
-        }
+
         if (SwingMode.getValue().equals(mode.Offhand)) {
             mc.player.swingingHand = EnumHand.OFF_HAND;
         }

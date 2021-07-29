@@ -12,18 +12,18 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ChatModifier extends Module {
 
-    public Setting<Suffix> suffix = this.register(new Setting<Suffix>("Suffix", Suffix.NONE, "Your Suffix."));
-    public Setting<Boolean> clean = this.register(new Setting<Boolean>("CleanChat", Boolean.valueOf(false), "Cleans your chat"));
-    public Setting<Boolean> infinite = this.register(new Setting<Boolean>("Infinite", Boolean.valueOf(false), "Makes your chat infinite."));
-    public Setting<Boolean> autoQMain = this.register(new Setting<Boolean>("AutoQMain", Boolean.valueOf(false), "Spams AutoQMain"));
-    public Setting<Boolean> qNotification = this.register(new Setting<Object>("QNotification", Boolean.valueOf(false), v -> this.autoQMain.getValue()));
-    public Setting<Integer> qDelay = this.register(new Setting<Object>("QDelay", Integer.valueOf(9), Integer.valueOf(1), Integer.valueOf(90), v -> this.autoQMain.getValue()));
+    public Setting<Suffix> suffix = register(new Setting<Suffix>("Suffix", Suffix.NONE, "Your Suffix."));
+    public Setting<Boolean> clean = register(new Setting<Boolean>("CleanChat", false, "Cleans your chat"));
+    public Setting<Boolean> infinite = register(new Setting<Boolean>("Infinite", false, "Makes your chat infinite."));
+    public Setting<Boolean> autoQMain = register(new Setting<Boolean>("AutoQMain", false, "Spams AutoQMain"));
+    public Setting<Boolean> qNotification = register(new Setting<Object>("QNotification", false, v -> autoQMain.getValue()));
+    public Setting<Integer> qDelay = register(new Setting<Object>("QDelay", Integer.valueOf(9), Integer.valueOf(1), Integer.valueOf(90), v -> autoQMain.getValue()));
     private final Timer timer = new Timer();
     private static ChatModifier INSTANCE = new ChatModifier();
 
     public ChatModifier() {
         super("ChatModifier", "Modifies your chat", Module.Category.MISC, true, false, false);
-        this.setInstance();
+        setInstance();
     }
 
     private void setInstance() {
@@ -39,15 +39,15 @@ public class ChatModifier extends Module {
 
     @Override
     public void onUpdate() {
-        if (this.autoQMain.getValue().booleanValue()) {
-            if (!this.shouldSendMessage((EntityPlayer) ChatModifier.mc.player)) {
+        if (autoQMain.getValue()) {
+            if (!shouldSendMessage((EntityPlayer) ChatModifier.mc.player)) {
                 return;
             }
-            if (this.qNotification.getValue().booleanValue()) {
+            if (qNotification.getValue()) {
                 Command.sendMessage("<AutoQueueMain> Sending message: /queue main");
             }
             ChatModifier.mc.player.sendChatMessage("/queue main");
-            this.timer.reset();
+            timer.reset();
         }
     }
 
@@ -59,7 +59,7 @@ public class ChatModifier extends Module {
             if (s.startsWith("/")) {
                 return;
             }
-            switch (this.suffix.getValue()) {
+            switch (suffix.getValue()) {
                 case RENOSENSE: {
                     s = s + " ||| \u13D2\u13AC\u13C1\u13BE\u13D5\u13AC\u13C1\u13D5\u13AC";
                     break;
@@ -85,7 +85,7 @@ public class ChatModifier extends Module {
         if (player.dimension != 1) {
             return false;
         }
-        if (!this.timer.passedS(this.qDelay.getValue().intValue())) {
+        if (!timer.passedS(qDelay.getValue().intValue())) {
             return false;
         }
         return player.getPosition().equals((Object) new Vec3i(0, 240, 0));
